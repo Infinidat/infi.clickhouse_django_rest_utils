@@ -30,9 +30,13 @@ and use this command to run the tests:
 
 serializers
 =======
+
 ###ClickhouseSerializer
+
 Extends the Django-rest-framework Serializer, adding it the compatibility to recognize Clickhouse fields.
+
 ######Supported Clickhouse ORM fields are:
+
 - Int8Field
 - Int16Field
 - Int32Field
@@ -47,6 +51,7 @@ Extends the Django-rest-framework Serializer, adding it the compatibility to rec
 - Enum16Field
 
 ######Not supported Fields:
+
 - ArrayField
 
 
@@ -58,6 +63,7 @@ Supports in the following fields selection:
 - Omitting fields and exclude form the Meta class will be resulted in selecting all available fields in the model.
 
 ####ClickhouseSerializer usage example:
+
 ```python
 class ClickhouseSerializerExample(ClickhouseSerializer):
     class Meta:
@@ -72,12 +78,14 @@ class ClickhouseSerializerExample(ClickhouseSerializer):
 =======
 
 ###ClickhouseViewSet
+
 Extends the GenericViewSet and overrides the methods 
 filter_queryset and list. 
 
 The view is using the ClickhousePaginator as the pagination_class, and the ClickhouseRestFilter as its filters_backend.
 
 ####ClickhouseViewSet usage example:
+
 ```python
 class ClickhouseViewSetExample(ClickhouseViewSet):
     queryset = Some_Clickhouse_valid_queryset
@@ -94,10 +102,12 @@ Filters
 =======
 
 ###ClickhouseRestFilter
+
 Extends the infi.django_rest_utils' InfinidatFilter, making it compatible to filter the given Clickhouse ORM queryset.
 
 
 ###ClickhouseFilterableField
+
 A class representing a Clickhouse Filterable Field to be 
 used when configuring the list of fields to filter in the 
 serializer (using the get_filterable_fields method).
@@ -106,6 +116,7 @@ The most important thing is the method build_q which return the field's query ac
 
 
 ######Supported Operators:
+
 - equal (eq)
 - not equal (ne)
 - lower than (lt)
