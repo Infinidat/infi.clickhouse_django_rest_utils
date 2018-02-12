@@ -4,8 +4,6 @@ from rest_framework.exceptions import NotFound, ValidationError
 
 
 
-
-
 class ClickhouseFilterableField(object):
 
     STRING   = 'string'
@@ -32,6 +30,12 @@ class ClickhouseFilterableField(object):
         else:
             return self.converter(value)
 
+
+class clickhouseOrderingFilter(filters.OrderingFilter):
+
+    def filter_queryset(self, request, queryset, view):
+        ordering = self.get_ordering(request, queryset, view) or []
+        return queryset.order_by(*ordering)
 
 
 class ClickhouseRestFilter(filters.InfinidatFilter):

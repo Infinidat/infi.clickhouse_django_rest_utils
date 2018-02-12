@@ -4,9 +4,9 @@ from collections import OrderedDict
 from rest_framework.response import Response
 from infi.django_rest_utils import pagination
 from django.utils import six
-from filters import ClickhouseRestFilter
+from filters import ClickhouseRestFilter, clickhouseOrderingFilter
 from django.core.paginator import InvalidPage
-from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet
 from infi.django_rest_utils.views import ViewDescriptionMixin
 
 
@@ -73,15 +73,16 @@ class ClickhousePaginator(pagination.InfinidatPaginationSerializer):
 
         return self.page.objects
 
-class ClickhouseViewSet(ViewDescriptionMixin, GenericViewSet):
+class ClickhouseViewSet(ViewDescriptionMixin, ReadOnlyModelViewSet):
     pagination_class = ClickhousePaginator
     # to be used in the ViewDescriptionMixin
-    filter_backends = [ClickhouseRestFilter]
+    filter_backends = [ClickhouseRestFilter, clickhouseOrderingFilter]
 
 
     def filter_queryset(self, queryset):
-        filtered_queryset = ClickhouseRestFilter().filter_queryset(self.request, queryset, self)
-        return filtered_queryset
+        for backend in list(self.filter_backends):
+            queryset = backend().filter_queryset(self.request, queryset, self)
+        return queryset
 
     def list(self, request, *args, **kwargs):
         self.request = request

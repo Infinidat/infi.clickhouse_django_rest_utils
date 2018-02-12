@@ -89,6 +89,7 @@ When using the ClickhouseViewSet it is mandatory to define
 a queryset(a valid Clickhouse ORM queryset) and a serializer_class(a valid ClickhouseSerializer) arguments that will be used during 
 the view process. 
 
+Please note that the Clickhouse viewset supports only in list method, and cannot return data for a single object query (i.e some-url-address/<obj_id>).
 
 
 Filters
@@ -96,12 +97,17 @@ Filters
 ###ClickhouseRestFilter
 Extends the infi.django_rest_utils' InfinidatFilter, making it compatible to filter the given Clickhouse ORM queryset.
 
+###ClickhouseOrderingFilter
+Extends the infi.django_rest_utils' OrderingFilter and is adding a support to have sorted results in the Clickhouse Django REST Utils.
+Implements the filter_queryset method and executes sorting on the given Clickhouse Queryset.
+
 ###ClickhouseFilterableField
 A class representing a Clickhouse Filterable Field to be 
 used when configuring the list of fields to filter in the 
 serializer (using the get_filterable_fields method).
 
-The most important thing is the method build_q which return the field's query according to the Clickhouse ORM rules.
+The most important method build_q which returns the field's query according to the Clickhouse ORM rules.
+
 
 
 ######Supported Operators:
