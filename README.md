@@ -30,9 +30,9 @@ and use this command to run the tests:
 
 serializers
 ===========
-###ClickhouseSerializer
+### ClickhouseSerializer
 Extends the Django-rest-framework Serializer, adding it the compatibility to recognize Clickhouse fields.
-######Supported Clickhouse ORM fields are:
+###### Supported Clickhouse ORM fields are:
 - Int8Field
 - Int16Field
 - Int32Field
@@ -46,7 +46,7 @@ Extends the Django-rest-framework Serializer, adding it the compatibility to rec
 - Enum8Field
 - Enum16Field
 
-######Not supported Fields:
+###### Not supported Fields:
 - ArrayField
 
 
@@ -57,7 +57,7 @@ Supports in the following fields selection:
 
 - Omitting fields and exclude form the Meta class will be resulted in selecting all available fields in the model.
 
-####ClickhouseSerializer usage example:
+#### ClickhouseSerializer usage example:
 
 ```python
 class ClickhouseSerializerExample(ClickhouseSerializer):
@@ -71,13 +71,13 @@ class ClickhouseSerializerExample(ClickhouseSerializer):
     
 views
 =====
-###ClickhouseViewSet
+### ClickhouseViewSet
 Extends the GenericViewSet and overrides the methods 
 filter_queryset and list. 
 
 The view is using the ClickhousePaginator as the pagination_class, and the ClickhouseRestFilter as its filters_backend.
 
-####ClickhouseViewSet usage example:
+#### ClickhouseViewSet usage example:
 
 ```python
 class ClickhouseViewSetExample(ClickhouseViewSet):
@@ -94,14 +94,14 @@ Please note that the Clickhouse viewset supports only in list method, and cannot
 
 Filters
 =======
-###ClickhouseRestFilter
+### ClickhouseRestFilter
 Extends the infi.django_rest_utils' InfinidatFilter, making it compatible to filter the given Clickhouse ORM queryset.
 
-###ClickhouseOrderingFilter
+### ClickhouseOrderingFilter
 Extends the infi.django_rest_utils' OrderingFilter and is adding a support to have sorted results in the Clickhouse Django REST Utils.
 Implements the filter_queryset method and executes sorting on the given Clickhouse Queryset.
 
-###ClickhouseFilterableField
+### ClickhouseFilterableField
 A class representing a Clickhouse Filterable Field to be 
 used when configuring the list of fields to filter in the 
 serializer (using the get_filterable_fields method).
@@ -110,7 +110,7 @@ The most important method build_q which returns the field's query according to t
 
 
 
-######Supported Operators:
+###### Supported Operators:
 
 - equal (eq)
 - not equal (ne)
