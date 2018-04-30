@@ -76,3 +76,9 @@ class FieldsTestCase(BaseTestCase):
         # to check that the request failed
         res = self.client.get('/api/rest/filterablefields/', {'id': 1})
         self.assertEqual(res.status_code, 400)
+
+
+    def test_sorting(self):
+        res = self.client.get('/api/rest/allfields/', {'sort': '-id'})
+        result = json.loads(res.content)['result']
+        self.assertTrue(result[0]['id'] == 2 and result[1]['id'] == 1)
