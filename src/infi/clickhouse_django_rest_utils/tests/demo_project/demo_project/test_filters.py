@@ -61,12 +61,12 @@ class FieldsTestCase(BaseTestCase):
 
 
     def test_filter_startswith(self):
-        res = self.client.get('/api/rest/allfields/', {'null_field': 'starts with:b'})
+        res = self.client.get('/api/rest/allfields/', {'null_field': 'starts_with:b'})
         result = json.loads(res.content)['result']
         self.assertTrue(result)
 
     def test_filter_endsswith(self):
-        res = self.client.get('/api/rest/allfields/', {'null_field': 'ends with:d'})
+        res = self.client.get('/api/rest/allfields/', {'null_field': 'ends_with:d'})
         result = json.loads(res.content)['result']
         self.assertTrue(result)
 

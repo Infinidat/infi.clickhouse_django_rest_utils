@@ -49,7 +49,7 @@ class ExcludeFieldsDataView(ClickhouseViewSet):
     queryset = ClickhouseAllFields.objects_in(db)
     serializer_class = ExcludeFieldsSerializer
 
-# CLASSES TO TEST THE SPECIFIC FILTERS COMPATIBILTY
+# CLASSES TO TEST THE SPECIFIC FILTERS COMPATIBILITY
 
 class SpecificFiltersSerializer(ClickhouseSerializer):
     class Meta:
