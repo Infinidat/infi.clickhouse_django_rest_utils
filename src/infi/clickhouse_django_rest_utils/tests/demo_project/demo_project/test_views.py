@@ -1,10 +1,11 @@
-from test_base import BaseTestCase
+from __future__ import absolute_import
+from .test_base import BaseTestCase
 from infi.clickhouse_orm.database import Database
 from django.conf import settings
 from django.utils import timezone
-from models import ClickhouseAllFields, enum_
+from .models import ClickhouseAllFields, enum_
 import json
-from views import PARTIAL_FIELDS, EXCLUDE_FIELDS
+from .views import PARTIAL_FIELDS, EXCLUDE_FIELDS
 
 class FieldsTestCase(BaseTestCase):
 
@@ -36,7 +37,7 @@ class FieldsTestCase(BaseTestCase):
 
     def test_all_fields_exists(self):
         res = self.client.get('/api/rest/allfields/')
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         # check that each key exists and stores a value
         for key, val in self.values_to_insert.items():
             # not comparing the values due to differences in case of datetime fields etc. that test is being done in
@@ -46,12 +47,12 @@ class FieldsTestCase(BaseTestCase):
 
     def test_partial_fields(self):
         res = self.client.get('/api/rest/partialfields/')
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         for key in result[0].keys():
             self.assertTrue(key in PARTIAL_FIELDS)
 
     def test_exclude_fields(self):
         res = self.client.get('/api/rest/excludefields/')
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         for key in EXCLUDE_FIELDS:
             self.assertFalse(key in result[0])

@@ -1,8 +1,9 @@
-from test_base import BaseTestCase
+from __future__ import absolute_import
+from .test_base import BaseTestCase
 from infi.clickhouse_orm.database import Database
 from django.conf import settings
 from django.utils import timezone
-from models import ClickhouseAllFields, enum_
+from .models import ClickhouseAllFields, enum_
 import json
 
 
@@ -50,24 +51,24 @@ class FieldsTestCase(BaseTestCase):
 
     def test_effective_filter(self):
         res = self.client.get('/api/rest/allfields/', {'string_field': 'eq:a'})
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         self.assertTrue(result)
 
 
     def test_not_effective_filter(self):
         res = self.client.get('/api/rest/allfields/', {'string_field': 'eq:z'})
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         self.assertFalse(result)
 
 
     def test_filter_startswith(self):
         res = self.client.get('/api/rest/allfields/', {'null_field': 'starts_with:b'})
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         self.assertTrue(result)
 
     def test_filter_endsswith(self):
         res = self.client.get('/api/rest/allfields/', {'null_field': 'ends_with:d'})
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         self.assertTrue(result)
 
 
@@ -80,5 +81,5 @@ class FieldsTestCase(BaseTestCase):
 
     def test_sorting(self):
         res = self.client.get('/api/rest/allfields/', {'sort': '-id'})
-        result = json.loads(res.content)['result']
+        result = res.json()['result']
         self.assertTrue(result[0]['id'] == 2 and result[1]['id'] == 1)

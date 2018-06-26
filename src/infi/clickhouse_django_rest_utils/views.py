@@ -1,10 +1,11 @@
+from __future__ import absolute_import
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.utils.urls import remove_query_param, replace_query_param
 from collections import OrderedDict
 from rest_framework.response import Response
 from infi.django_rest_utils import pagination
 from django.utils import six
-from filters import ClickhouseRestFilter, ClickhouseOrderingFilter
+from .filters import ClickhouseRestFilter, ClickhouseOrderingFilter
 from django.core.paginator import InvalidPage
 from rest_framework.viewsets import ReadOnlyModelViewSet
 from infi.django_rest_utils.views import ViewDescriptionMixin

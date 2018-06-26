@@ -1,4 +1,6 @@
-from models import ClickhouseAllFields
+from __future__ import absolute_import
+from builtins import object
+from .models import ClickhouseAllFields
 from infi.clickhouse_django_rest_utils.filters import ClickhouseFilterableField, ClickhouseRestFilter
 from infi.clickhouse_django_rest_utils.serializers import ClickhouseSerializer
 from infi.clickhouse_django_rest_utils.views import ClickhouseViewSet
