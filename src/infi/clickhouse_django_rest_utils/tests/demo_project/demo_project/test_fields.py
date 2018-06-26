@@ -1,10 +1,11 @@
-from test_base import BaseTestCase
+from __future__ import absolute_import
+from .test_base import BaseTestCase
 
 from django.conf import settings
 from infi.clickhouse_orm.database import Database
-from models import ClickhouseAllFields, enum_
+from .models import ClickhouseAllFields, enum_
 from django.utils import timezone
-from views import AllFieldsSerializer
+from .views import AllFieldsSerializer
 from dateutil import parser
 from django.utils import six
 

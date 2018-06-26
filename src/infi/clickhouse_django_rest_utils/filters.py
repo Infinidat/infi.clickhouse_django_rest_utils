@@ -1,3 +1,4 @@
+from builtins import object
 from infi.clickhouse_orm import fields as chf
 from infi.django_rest_utils import filters
 from rest_framework.exceptions import NotFound, ValidationError
@@ -9,7 +10,6 @@ class ClickhouseFilterableField(object):
     STRING   = 'string'
     INTEGER  = 'integer'
     FLOAT    = 'float'
-    BOOLEAN  = 'boolean'
     DATETIME = 'datetime'
 
     def __init__(self, name, source=None, converter=None, datatype=STRING, advanced=False):
@@ -31,7 +31,7 @@ class ClickhouseFilterableField(object):
             return self.converter(value)
 
 
-class clickhouseOrderingFilter(filters.OrderingFilter):
+class ClickhouseOrderingFilter(filters.OrderingFilter):
 
     def filter_queryset(self, request, queryset, view):
         ordering = self.get_ordering(request, queryset, view) or []
@@ -42,9 +42,9 @@ class ClickhouseRestFilter(filters.InfinidatFilter):
 
     def filter_queryset(self, request, queryset, view):
         # get a list of all fields to filter
-        filterable_fields = _get_filterable_fields(view)
+        filterable_fields = self._get_filterable_fields(view)
         ignored_fields = self._get_ignored_fields(view)
-        for field_name in request.GET.keys():
+        for field_name in list(request.GET.keys()):
             if field_name in ignored_fields:
                 continue
             field = None
@@ -77,40 +77,40 @@ class ClickhouseRestFilter(filters.InfinidatFilter):
             filters.Operator('le',      'lte',       'field <= value'),
             filters.Operator('gt',      'gt',        'field > value'),
             filters.Operator('ge',      'gte',       'field >= value'),
-            filters.Operator('like(case sensitive)',    'icontains', 'field contains a string (case insensitive)'),
-            filters.Operator('unlike(case sensitive)',  'icontains', 'field does not contain a string (case insensitive)', negate=True),
+            filters.Operator('like',    'icontains', 'field contains a string (case insensitive)'),
+            filters.Operator('unlike',  'icontains', 'field does not contain a string (case insensitive)', negate=True),
             filters.Operator('in',      'in',        'field is equal to one of the given values', max_vals=1000),
             filters.Operator('out',     'not_in',     'field is not equal to any of the given values', max_vals=1000),
-            filters.Operator('like', 'contains', 'field contains a string'),
-            filters.Operator('unlike', 'contains', 'field does not contain a string', negate=True),
-            filters.Operator('starts with', 'startswith', 'field is starting with the given value'),
-            filters.Operator('ends with', 'endswith', 'field is ending with the given value')
+            filters.Operator('starts_with', 'startswith', 'field is starting with the given value'),
+            filters.Operator('ends_with', 'endswith', 'field is ending with the given value')
         ]
 
-def _get_filterable_fields(view):
-    '''
-    Get the list of filterable fields for the given view, or deduce them
-    from the serializer fields.
-    '''
-    serializer = view.get_serializer()
-    if hasattr(serializer, 'get_filterable_fields'):
-        return serializer.get_filterable_fields()
-    # Autodetect filterable fields according to all available fields in the serializers
-    return [
-        ClickhouseFilterableField(field.source or field_name, datatype=_get_field_type(field))
-        for field_name, field in serializer.fields.items()
-        if not getattr(field, 'write_only', False) and not field.source == '*'
-    ]
+    def _get_filterable_fields(self, view):
+        '''
+        Get the list of filterable fields for the given view, or deduce them
+        from the serializer fields.
+        '''
+        serializer = view.get_serializer()
+        if hasattr(serializer, 'get_filterable_fields'):
+            return serializer.get_filterable_fields()
+        # Autodetect filterable fields according to all available fields in the serializers
+        return [
+            ClickhouseFilterableField(field.source or field_name, datatype=self._get_field_type(field))
+            for field_name, field in list(serializer.fields.items())
+            if not getattr(field, 'write_only', False) and not field.source == '*'
+        ]
 
 
-def _get_field_type(serializer_field):
-    '''
-    Determine the appropriate FilterableField type for the given serializer field.
-    '''
-    if isinstance(serializer_field, chf.BaseIntField):
-        return ClickhouseFilterableField.INTEGER
-    if isinstance(serializer_field, chf.BaseFloatField):
-        return ClickhouseFilterableField.FLOAT
-    if isinstance(serializer_field, chf.DateTimeField):
-        return ClickhouseFilterableField.DATETIME
-    return ClickhouseFilterableField.STRING
+    def _get_field_type(self, serializer_field):
+        '''
+        Determine the appropriate FilterableField type for the given serializer field.
+        '''
+        from rest_framework.fields import IntegerField, FloatField, DecimalField, DateTimeField
+
+        if isinstance(serializer_field, IntegerField):
+            return ClickhouseFilterableField.INTEGER
+        if isinstance(serializer_field, FloatField) or isinstance(serializer_field, DecimalField):
+            return ClickhouseFilterableField.FLOAT
+        if isinstance(serializer_field, DateTimeField):
+            return ClickhouseFilterableField.DATETIME
+        return ClickhouseFilterableField.STRING

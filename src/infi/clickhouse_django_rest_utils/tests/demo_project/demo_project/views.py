@@ -1,4 +1,6 @@
-from models import ClickhouseAllFields
+from __future__ import absolute_import
+from builtins import object
+from .models import ClickhouseAllFields
 from infi.clickhouse_django_rest_utils.filters import ClickhouseFilterableField, ClickhouseRestFilter
 from infi.clickhouse_django_rest_utils.serializers import ClickhouseSerializer
 from infi.clickhouse_django_rest_utils.views import ClickhouseViewSet
@@ -49,7 +51,7 @@ class ExcludeFieldsDataView(ClickhouseViewSet):
     queryset = ClickhouseAllFields.objects_in(db)
     serializer_class = ExcludeFieldsSerializer
 
-# CLASSES TO TEST THE SPECIFIC FILTERS COMPATIBILTY
+# CLASSES TO TEST THE SPECIFIC FILTERS COMPATIBILITY
 
 class SpecificFiltersSerializer(ClickhouseSerializer):
     class Meta:
