@@ -44,7 +44,7 @@ class ClickhouseRestFilter(filters.InfinidatFilter):
         # get a list of all fields to filter
         filterable_fields = self._get_filterable_fields(view)
         ignored_fields = self._get_ignored_fields(view)
-        for field_name in list(request.GET.keys()):
+        for field_name in request.GET.keys():
             if field_name in ignored_fields:
                 continue
             field = None
@@ -96,7 +96,7 @@ class ClickhouseRestFilter(filters.InfinidatFilter):
         # Autodetect filterable fields according to all available fields in the serializers
         return [
             ClickhouseFilterableField(field.source or field_name, datatype=self._get_field_type(field))
-            for field_name, field in list(serializer.fields.items())
+            for field_name, field in serializer.fields.items()
             if not getattr(field, 'write_only', False) and not field.source == '*'
         ]
 

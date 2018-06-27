@@ -26,7 +26,7 @@ class ClickhouseSerializer(serializers.Serializer):
         fields = getattr(self.Meta, 'fields', [])
         exclude = getattr(self.Meta, 'exclude', [])
 
-        for f in list(model._fields.items()):
+        for f in model._fields.items():
             field_name = f[0]
             field_type = f[1]
             # check for each field in the model if it should be included in the fields results or not according to Meta.fields and Meta.exclude
