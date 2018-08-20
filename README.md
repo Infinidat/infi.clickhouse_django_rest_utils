@@ -58,6 +58,9 @@ Supports in the following fields selection:
 
 - Omitting fields and exclude form the Meta class will be resulted in selecting all available fields in the model.
 
+- In case of having a custom Clickhouse field (inherits clickhouse_orm.fields.Field), add an attribute 'django_field_type' to store
+the appropriate django_rest_framework_serializers field type.
+
 #### ClickhouseSerializer usage example:
 
 ```python
