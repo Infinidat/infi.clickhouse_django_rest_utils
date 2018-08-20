@@ -42,7 +42,12 @@ class ClickhouseSerializer(serializers.Serializer):
                         if field_type.__class__ == chf.NullableField:
                             field_type = field_type.inner_field
 
-                        fields_res[field_name] = self.serializer_field_mapping.get(field_type.__class__, serializers.CharField)()
+                        fields_res[field_name] = self.serializer_field_mapping.get(field_type.__class__,
+                                                                                   # take django_field_type attr from the field cls
+                                                                                   field_type.__class__.django_field_type
+                                                                                   # if missing, default type is Char
+                                                                                   if hasattr(field_type.__class__, 'django_field_type')
+                                                                                   else serializers.CharField)()
 
         return fields_res
 
