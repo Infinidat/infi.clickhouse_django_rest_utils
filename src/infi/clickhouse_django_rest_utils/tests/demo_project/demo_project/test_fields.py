@@ -21,7 +21,8 @@ class FieldsTestCase(BaseTestCase):
         'floatfield': 0.5,
         'null_field': 'bbbbb',
         # populate enum_field with the first value in enum_
-        'enum_field': list(enum_)[0]
+        'enum_field': list(enum_)[0],
+        'array_field': [10, 20, 30, 40, 50]
     }
 
 
@@ -69,3 +70,9 @@ class FieldsTestCase(BaseTestCase):
         self.assertEqual(serialized.data.get('enum_field'),
                          # take the name of the selected option in self.values_to_insert
                          self.values_to_insert.get('enum_field').name)
+
+
+    def test_array_fields(self):
+        obj = ClickhouseAllFields.objects_in(self.db)[0]
+        serialized = AllFieldsSerializer(obj)
+        self.assertEqual(serialized.data.get('array_field'), self.values_to_insert.get('array_field'))

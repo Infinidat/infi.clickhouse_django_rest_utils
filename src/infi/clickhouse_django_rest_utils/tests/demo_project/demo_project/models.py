@@ -18,6 +18,6 @@ class ClickhouseAllFields(chm.Model):
     floatfield = chf.Float32Field()
     null_field = chf.NullableField(chf.StringField())
     enum_field = chf.Enum16Field(enum_)
-
+    array_field = chf.ArrayField(chf.Int16Field())
 
     engine = MergeTree('timestamp_date', ['id'])
