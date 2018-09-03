@@ -46,8 +46,6 @@ Extends the Django-rest-framework Serializer, adding it the compatibility to rec
 - NullableField
 - Enum8Field
 - Enum16Field
-
-###### Not supported Fields:
 - ArrayField
 
 
