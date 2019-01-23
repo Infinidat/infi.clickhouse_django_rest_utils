@@ -17,6 +17,7 @@ from __future__ import absolute_import
 from django.conf.urls import include, url
 from django.contrib import admin
 from infi.django_rest_utils import routers
+import django
 
 from . import views
 
@@ -31,9 +32,13 @@ router.register(r'partialfields', views.PartialFieldsDataView, base_name='partia
 router.register(r'excludefields', views.ExcludeFieldsDataView, base_name='excludefields')
 router.register(r'filterablefields', views.SpecificFiltersDataView, base_name='filterablefields')
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^api/rest/', include(router.urls))
-]
-
-
+if django.VERSION[0] == '1':
+    urlpatterns = [
+        url(r'^admin/', include(admin.site.urls)),
+        url(r'^api/rest/', include(router.urls))
+    ]
+else:
+    urlpatterns = [
+        url(r'^admin/', admin.site.urls),
+        url(r'^api/rest/', include(router.urls))
+    ]
