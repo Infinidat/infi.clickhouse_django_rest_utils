@@ -2,7 +2,7 @@ Overview
 ========
 This project contains classes and utils making the django rest framwork compatible to work against a Clickhouse ORM.
 
-This project was tested under Python 2.7 and 3.5
+This project was tested under Python 2.7 and 3.5.
 
 Usage
 -----
