@@ -4,7 +4,6 @@ from rest_framework.utils.urls import remove_query_param, replace_query_param
 from collections import OrderedDict
 from rest_framework.response import Response
 from infi.django_rest_utils import pagination
-from django.utils import six
 from .filters import ClickhouseRestFilter, ClickhouseOrderingFilter
 from django.core.paginator import InvalidPage
 from rest_framework.viewsets import ReadOnlyModelViewSet
@@ -63,7 +62,7 @@ class ClickhousePaginator(pagination.InfinidatPaginationSerializer):
 
         if self.page.pages_total and int(page_number) > int(self.page.pages_total):
             msg = self.invalid_page_message.format(
-                page_number=page_number, message=six.text_type(InvalidPage)
+                page_number=page_number, message=str(InvalidPage)
             )
             raise NotFound(msg)
 
