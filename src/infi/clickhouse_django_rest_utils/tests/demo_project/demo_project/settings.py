@@ -131,7 +131,7 @@ REST_FRAMEWORK = {
     'MAX_PAGINATE_BY': 10000
 }
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 #todo: move the clickhouse setting to uncomitted location
-CLICKHOUSE_URL = 'http://root@172.16.78.216:8123'
+CLICKHOUSE_URL = 'http://root@clickhouse-test:8123'
