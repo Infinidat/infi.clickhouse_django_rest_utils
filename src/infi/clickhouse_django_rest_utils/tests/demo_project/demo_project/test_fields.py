@@ -7,7 +7,7 @@ from .models import ClickhouseAllFields, enum_
 from django.utils import timezone
 from .views import AllFieldsSerializer
 from dateutil import parser
-from django.utils import six
+
 
 class FieldsTestCase(BaseTestCase):
     # a script to test the serializer of clickhouse_django_rest_utils

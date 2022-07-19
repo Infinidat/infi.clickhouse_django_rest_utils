@@ -27,10 +27,10 @@ router = routers.DefaultRouter(
     description=''
 )
 
-router.register(r'allfields', views.AllFieldsDataView, base_name='allfields')
-router.register(r'partialfields', views.PartialFieldsDataView, base_name='partialfields')
-router.register(r'excludefields', views.ExcludeFieldsDataView, base_name='excludefields')
-router.register(r'filterablefields', views.SpecificFiltersDataView, base_name='filterablefields')
+router.register(r'allfields', views.AllFieldsDataView, basename='allfields')
+router.register(r'partialfields', views.PartialFieldsDataView, basename='partialfields')
+router.register(r'excludefields', views.ExcludeFieldsDataView, basename='excludefields')
+router.register(r'filterablefields', views.SpecificFiltersDataView, basename='filterablefields')
 
 if django.VERSION[0] == '1':
     urlpatterns = [
